@@ -3,50 +3,361 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>郑靖文 - 三维作品集</title>
+    <title>郑靖文｜三维作品集</title>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft Yahei",sans-serif;}
-        body{background:#f4f6f8;color:#222;padding:30px;max-width:1200px;margin:0 auto;}
-        h1{text-align:center;margin-bottom:40px;font-size:32px;}
-        .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:24px;}
-        .card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px #00000015;}
-        .card img{width:100%;height:300px;object-fit:cover;display:block;}
-        .info{padding:16px;}
-        .info h3{margin-bottom:8px;}
-        .info p{color:#555;line-height:1.6;}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+            scroll-behavior: smooth;
+        }
+        :root {
+            --bg: #f8fafc;
+            --text: #1e293b;
+            --card: #ffffff;
+            --accent: #6366f1;
+            --accent-light: #eef2ff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        .dark {
+            --bg: #0f172a;
+            --text: #e2e8f0;
+            --card: #1e293b;
+            --accent: #818cf8;
+            --accent-light: #312e81;
+            --shadow: 0 10px 30px rgba(0,0,0,0.25);
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            background: var(--card);
+            box-shadow: var(--shadow);
+            padding: 1rem 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .nav-links a {
+            margin-left: 24px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+        }
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        #toggle-dark {
+            border: none;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 6px 12px;
+            border-radius: 999px;
+            cursor: pointer;
+        }
+        section {
+            padding: 60px 8%;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .hero-text h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+        .hero-text p.sub {
+            color: #64748b;
+            font-size: 18px;
+            margin-bottom: 24px;
+        }
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            margin-right: 12px;
+            margin-bottom: 10px;
+        }
+        .btn.outline {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+        h2 {
+            font-size: 30px;
+            margin-bottom: 32px;
+            border-left: 6px solid var(--accent);
+            padding-left: 14px;
+        }
+        .skill-wrap {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+        .skill-card {
+            background: var(--card);
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+        .skill-card h3 {
+            margin-bottom: 12px;
+        }
+        .tag {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin: 4px;
+            font-size: 14px;
+        }
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
+            gap: 30px;
+        }
+        .project-card {
+            background: var(--card);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+        }
+        .project-card img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        .project-info {
+            padding: 24px;
+        }
+        .project-info h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        .project-info p {
+            line-height: 1.7;
+            color: #64748b;
+        }
+        .exp-card {
+            background: var(--card);
+            padding: 28px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+        .contact-item{
+            margin:8px 0;
+        }
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+        }
+        /*图片弹窗*/
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+        }
+        .lightbox.active {
+            display: flex;
+        }
+        .close-lb {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            color: white;
+            font-size: 36px;
+            cursor: pointer;
+        }
+        @media(max-width:768px){
+            .hero-text h1{font-size:30px;}
+            .project-grid{grid-template-columns:1fr;}
+            .nav-links a{margin-left:10px;font-size:14px;}
+        }
     </style>
 </head>
 <body>
-    <h1>郑靖文｜三维作品集</h1>
-    <div class="grid">
-        <div class="card">
-            <img src="ytr.jpg" alt="Blender国风古街场景">
-            <div class="info">
-                <h3>Blender 国风古街场景建模</h3>
-                <p>国风古风街道场景，包含建筑、植被、远景山体，Blender渲染</p>
+    <nav>
+        <div class="logo">郑靖文 · Portfolio</div>
+        <div class="nav-links">
+            <a href="#about">关于我</a>
+            <a href="#skill">专业技能</a>
+            <a href="#project">项目作品</a>
+            <a href="#exp">校园经历</a>
+            <a href="#contact">联系方式</a>
+            <button id="toggle-dark">🌙/☀</button>
+        </div>
+    </nav>
+
+    <section class="hero" id="about">
+        <div class="hero-text">
+            <h1>你好，我是郑靖文</h1>
+            <p class="sub">共青团员｜成都职业技术学院｜虚拟现实技术应用 专科在读</p>
+            <p style="line-height:1.8;margin-bottom:24px;">
+                籍贯四川省成都市青羊区，2024.09‑2027.06在校就读。主修三维建模、引擎开发相关课程，拥有多个完整三维场景、游戏开发项目经验。性格踏实稳重、积极上进，具备良好沟通与团队协作意识，学习适应能力强；对待工作细心严谨，执行力强，愿意从基础岗位积累经验，快速成长。
+            </p>
+            <a href="#project" class="btn">查看作品</a>
+            <a href="#skill" class="btn outline">专业技能</a>
+        </div>
+    </section>
+
+    <section id="skill">
+        <h2>专业技能</h2>
+        <div class="skill-wrap">
+            <div class="skill-card">
+                <h3>三维建模 & 动画渲染</h3>
+                <div>
+                    <span class="tag">3ds Max</span>
+                    <span class="tag">Blender</span>
+                    <span class="tag">材质贴图</span>
+                    <span class="tag">灯光渲染</span>
+                    <span class="tag">摄像机动画</span>
+                    <span class="tag">三维动画制作</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <h3>游戏引擎开发</h3>
+                <div>
+                    <span class="tag">Unity引擎</span>
+                    <span class="tag">UE5虚幻引擎</span>
+                    <span class="tag">Playmaker</span>
+                    <span class="tag">蓝图交互</span>
+                    <span class="tag">角色换皮</span>
+                    <span class="tag">碰撞关卡逻辑</span>
+                </div>
+            </div>
+            <div class="skill-card">
+                <h3>设计与综合能力</h3>
+                <div>
+                    <span class="tag">Photoshop</span>
+                    <span class="tag">全景摄影项目</span>
+                    <span class="tag">综合项目开发</span>
+                    <span class="tag">资料统计归档</span>
+                    <span class="tag">图片分类整理</span>
+                </div>
             </div>
         </div>
-        <div class="card">
-            <img src="ygtfrd.jpg" alt="Blender卡通庭院场景">
-            <div class="info">
-                <h3>Blender 卡通庭院场景</h3>
-                <p>Q版卡通风格庭院场景，卡通化道具、氛围搭建</p>
+    </section>
+
+    <section id="project">
+        <h2>项目作品</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <img src="ghfdr.jpg" alt="3ds Max室内场景" class="lb-img">
+                <div class="project-info">
+                    <h3>3ds Max室内场景搭建与动画视频制作｜2025.06</h3>
+                    <p>使用3ds Max完成场景构思、模型搭建、贴图制作，设置摄像机动画，经过渲染剪辑输出场景展示视频。掌握室内空间布局、动画镜头、渲染输出整套流程。</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <img src="ytr.jpg" alt="Blender公园一角国风场景" class="lb-img">
+                <div class="project-info">
+                    <h3>Blender公园一角三维场景建模｜2026.01</h3>
+                    <p>独立负责场景构思、地形搭建、公园设施建模，完成材质调节与灯光渲染，熟练掌握Blender完整场景制作流程，提升三维建模实操能力。</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <img src="ygtfrd.jpg" alt="UE 2D游戏制作" class="lb-img">
+                <div class="project-info">
+                    <h3>UE 2D游戏制作｜2026.01</h3>
+                    <p>使用虚幻引擎搭建2D游戏场景，完成角色资源导入及角色换皮、蓝图逻辑编写、交互调试与画面效果整合，完成2D游戏原型开发。</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <img src="y.jpg" alt="2D Playmaker游戏开发" class="lb-img">
+                <div class="project-info">
+                    <h3>2D Playmaker游戏开发｜2026.07</h3>
+                    <p>使用Playmaker可视化工具搭建游戏逻辑，完成角色移动、碰撞、关卡交互功能调试与素材整合，实现完整2D小游戏交互效果。</p>
+                </div>
             </div>
         </div>
-        <div class="card">
-            <img src="ghfdr.jpg" alt="3ds Max室内场景">
-            <div class="info">
-                <h3>3ds Max 室内场景搭建</h3>
-                <p>室内空间模型搭建、灯光渲染，空间布局设计</p>
-            </div>
+    </section>
+
+    <section id="exp">
+        <h2>校园经历</h2>
+        <div class="exp-card">
+            <h3>虚拟现实协会｜记录员｜2022.04‑至今</h3>
+            <p style="margin-top:12px;line-height:1.8;">
+                承担703虚拟设备展厅参观记录工作；每次参观结束后统计、登记来访人员与工作人员信息；收集整理现场实拍图片并做好分类存档；为协会活动复盘、成果汇总提供完整资料支撑，锻炼信息统计、文档归档与沟通协作能力。
+            </p>
         </div>
-        <div class="card">
-            <img src="y.jpg" alt="Unity Playmaker 2D游戏">
-            <div class="info">
-                <h3>Unity Playmaker 2D小游戏</h3>
-                <p>无代码Playmaker逻辑开发，2D平台闯关游戏</p>
-            </div>
+    </section>
+
+    <section id="contact">
+        <h2>联系方式</h2>
+        <div class="exp-card">
+            <div class="contact-item">📞 电话：19828366639</div>
+            <div class="contact-item">📧 邮箱：3499960298@qq.com</div>
+            <div class="contact-item">🎓 院校：成都职业技术学院创意设计学院</div>
+            <div class="contact-item">📌 专业：虚拟现实技术应用（专科）</div>
         </div>
+    </section>
+
+    <footer>
+        <p>郑靖文 · 三维作品集 | GitHub Pages部署</p>
+    </footer>
+
+    <!--大图弹窗组件-->
+    <div class="lightbox" id="lightbox">
+        <span class="close-lb">&times;</span>
+        <img id="lb-show" src="" alt="">
     </div>
+
+    <script>
+        //明暗主题切换
+        const toggleBtn = document.getElementById('toggle-dark');
+        toggleBtn.onclick = ()=>{
+            document.body.classList.toggle('dark');
+        };
+        //图片点击放大弹窗
+        const lb = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lb-show');
+        const closeBtn = document.querySelector('.close-lb');
+        document.querySelectorAll('.lb-img').forEach(img=>{
+            img.onclick = ()=>{
+                lbImg.src = img.src;
+                lb.classList.add('active');
+            }
+        });
+        closeBtn.onclick = ()=> lb.classList.remove('active');
+        lb.onclick = (e)=>{
+            if(e.target === lb) lb.classList.remove('active');
+        }
+    </script>
 </body>
 </html>
